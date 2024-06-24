@@ -16,7 +16,7 @@
 * Users of this class can expect to gain a solid understanding of SOQL in Apex and
 * be prepared to handle data retrieval tasks in Salesforce development.
 * 
-* @author Your Name
+* @author Jessa Graham
 */
 
 public with sharing class SOQL {
@@ -28,9 +28,12 @@ public with sharing class SOQL {
      * @return List of all leads with Id, LastName, Company, Phone, Email
      * Update the corresponding test class and testGetAllLeads method to cover this method
      */
-    //[public | private ] [static] data_type method_name (input parameters) {
-    //  The body of the method
-    //}
+    public static List <Lead> getAllTheLeads(){
+        List<Lead> listOLeads = [SELECT Id, LastName, Company, Phone, Email FROM Lead];
+
+        return listOLeads;
+    }
+
 
     /**
      * Question 2
@@ -39,9 +42,10 @@ public with sharing class SOQL {
      * @return A list of Contact records.
      * Update the corresponding test class and testGetContactsByFirstName method to cover this method
      */
-    //[public | private ] [static] data_type method_name (input parameters) {
-    //  The body of the method
-    //}
+    public static List <Contact> getContactsByFirstName(){
+        List<Contact> justJohns = [SELECT Id, Name FROM Contact WHERE FirstName = 'John'];
+        return justJohns;
+    }
 
     /**
      * Question 3
@@ -53,6 +57,15 @@ public with sharing class SOQL {
     //[public | private ] [static] data_type method_name (input parameters) {
     //  The body of the method
     //}
+    public static List <Id> getContactIdsByLastName(){
+        List<Id> theSmithJoneses = new List<Id>();
+        for(Contact loopContact : [SELECT Id FROM Contact WHERE LastName IN ('Smith', 'Jones')]){
+            theSmithJoneses.add(loopContact.Id);
+        }
+        return theSmithJoneses;
+    }
+
+
 
     /**
      * Question 4
@@ -66,6 +79,11 @@ public with sharing class SOQL {
     //[public | private ] [static] data_type method_name (input parameters) {
     //  The body of the method
     //}
+    public static List<Opportunity> getClosedWonOpportunityCountByAccount(String idOfAccount){
+        List<Opportunity> opportunities = new List<Opportunity>([SELECT Id, Name, StageName, CloseDate, AccountId, Amount FROM Opportunity WHERE StageName = 'Closed Won' AND Opportunity.AccountId = :idOfAccount]);
+        return opportunities;
+    }
+
 
     /**
      * Question 5
@@ -77,6 +95,13 @@ public with sharing class SOQL {
     //[public | private ] [static] data_type method_name (input parameters) {
     //  The body of the method
     //}
+    public static Integer countOfAccounts(){
+        Integer accountCount = 0;
+        for(Account acc : [SELECT Id, Name FROM Account]){
+            accountCount ++;
+        }
+        return accountCount;
+    }
 
     /**
      * Question 6
